@@ -184,10 +184,13 @@ This uses the default scenario and automatically loads your agents alongside
 `DummyAgent`, `PatientAgent`, and `PriceWarAgent`. With one custom agent, you
 should see **four teams**. The run prints capital and stock through turn 5 and
 saves three dashboard PNGs in `outputs/default/`. No agent-path argument is
-needed. If an agent takes no actions, add `--ui none` to expose exception and
-timeout messages: a completed local run can still contain empty fallback decisions.
+needed.
 
-Now edit your strategy and rerun. Use the [testing reference](#3-testing-reference)
+For a graphical run, add `--ui window --turn-delay 0.5` to the command. It starts paused at turn 0. Press **Space** or click **Play** to begin. On a terminal, use `--ui terminal`; add a delay to follow each turn.
+Redirected terminal output falls back to plain progress. `--ui none` runs
+without a live dashboard. Batch runs skip the live UI.
+
+Now edit your strategy and rerun. Check [testing reference](#3-testing-reference)
 when you want the window UI, a longer run, or comparisons across seeds.
 
 ### 1.5 Submit your agent
