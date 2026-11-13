@@ -27,9 +27,9 @@ need to read every option before starting.
 ### 1.1 Fork the repository
 
 Sign in to GitHub, open the
-[DME repository](https://github.com/AIRIC-Polimi/pricing-hackaton-test), and select
+[DME repository](https://github.com/AIRIC-Polimi/pmds-pricing-hackathon), and select
 **Fork → Create fork** under your account. Use your fork for either workspace
-below. Its address should be `YOUR-USERNAME/pricing-hackaton-test`.
+below. Its address should be `YOUR-USERNAME/pmds-pricing-hackathon`.
 
 ### 1.2 Choose your workspace
 
@@ -53,8 +53,8 @@ using the expandable instructions below if needed. Replace `YOUR-USERNAME`
 with the owner of your fork, then run:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/pricing-hackaton-test.git
-cd pricing-hackaton-test
+git clone https://github.com/YOUR-USERNAME/pmds-pricing-hackathon.git
+cd pmds-pricing-hackathon
 uv sync --locked --python 3.12
 ```
 
@@ -99,17 +99,17 @@ official [Git](https://git-scm.com/install/) and
 </details>
 
 **After either option**, continue to section 1.3. Run all subsequent commands
-from the repository root: the `pricing-hackaton-test/` folder containing
+from the repository root: the `pmds-pricing-hackathon/` folder containing
 `pyproject.toml`, `config/`, and `src/`.
 
 ### 1.3 Create your agent
 
 Create a subfolder for each agent under
-**`pricing-hackaton-test/src/dme_simulator/agents/`**. Put that agent's
+**`pmds-pricing-hackathon/src/dme_simulator/agents/`**. Put that agent's
 `agent.py`, optional Python helpers, and optional models inside its folder:
 
 ```text
-pricing-hackaton-test/                 # run commands here
+pmds-pricing-hackathon/                 # run commands here
   essential_README.md
   pyproject.toml
   config/
