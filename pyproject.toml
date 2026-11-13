@@ -1,0 +1,27 @@
+[build-system]
+requires = ["uv_build>=0.10.0,<0.11.0"]
+build-backend = "uv_build"
+
+[project]
+name = "dme-simulator"
+version = "0.1.0"
+description = "Configurable Dynamic Market Exchange multi-agent simulator"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "matplotlib>=3.11.1",
+  "numpy>=2.0",
+  "pygame>=2.6",
+  "pyyaml>=6.0",
+  "rich>=13.0",
+  "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.9"]
+
+[project.scripts]
+dme-sim = "dme_simulator.cli:main"
+
+[tool.uv.build-backend]
+module-name = "dme_simulator"

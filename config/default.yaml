@@ -1,0 +1,143 @@
+turns: 40
+seed: 42
+
+initial_state:
+  starting_capital: 12000.0
+  initial_inventory: {}
+
+# Phase 1: every turn these lots are published and sold to the highest sealed
+# bids. Supplier production is drawn uniformly from [production_min, production_max]
+# and unsold stock carries over. The published reserve price falls as stock
+# accumulates.
+suppliers:
+  CHIP:
+    production_min: 34
+    production_max: 52
+    base_price: 15.0
+    stock_capacity: 260
+    price_stock_factor: 0.25
+    price_floor_multiplier: 0.55
+    adaptation:
+      enabled: true
+      low_stock_consecutive_turns: 2
+      high_stock_consecutive_turns: 5
+      empty_stock_percentage: 0.05
+      full_stock_percentage: 0.95
+      increase_percentage: 0.15
+      decrease_percentage: 0.08
+  DISPLAY:
+    production_min: 17
+    production_max: 26
+    base_price: 25.0
+    stock_capacity: 130
+    price_stock_factor: 0.30
+    price_floor_multiplier: 0.50
+    adaptation:
+      enabled: true
+      low_stock_consecutive_turns: 2
+      high_stock_consecutive_turns: 5
+      empty_stock_percentage: 0.05
+      full_stock_percentage: 0.95
+      increase_percentage: 0.20
+      decrease_percentage: 0.10
+  BATTERY:
+    production_min: 26
+    production_max: 35
+    base_price: 10.0
+    stock_capacity: 175
+    price_stock_factor: 0.20
+    price_floor_multiplier: 0.50
+    adaptation:
+      enabled: true
+      low_stock_consecutive_turns: 3
+      high_stock_consecutive_turns: 5
+      empty_stock_percentage: 0.05
+      full_stock_percentage: 0.95
+      increase_percentage: 0.12
+      decrease_percentage: 0.10
+  CASING:
+    production_min: 23
+    production_max: 32
+    base_price: 6.0
+    stock_capacity: 160
+    price_stock_factor: 0.15
+    price_floor_multiplier: 0.45
+    adaptation:
+      enabled: true
+      low_stock_consecutive_turns: 3
+      high_stock_consecutive_turns: 4
+      empty_stock_percentage: 0.05
+      full_stock_percentage: 0.95
+      increase_percentage: 0.08
+      decrease_percentage: 0.12
+
+# Phase 2: materials in, goods out. capacity_per_turn caps total units built
+# per team per turn; null means the only limit is the materials you hold.
+production:
+  capacity_per_turn: null
+
+# Phase 3: customers are spawned by segment, pick a good by their segment's
+# preference weights, and buy the listing they can afford.
+consumer_market:
+  base_customers: 25
+  amplitude: 8
+  period_divisor: 5.0
+  price_sensitivity_beta: 0.01
+  segments:
+    BUDGET:
+      share: 0.45
+      preferences: { SMARTWATCH: 3, PHONE: 2, TABLET: 1 }
+      willingness_to_pay:
+        SMARTWATCH: [90.0, 180.0]
+        PHONE: [150.0, 280.0]
+        TABLET: [180.0, 320.0]
+    MAINSTREAM:
+      share: 0.35
+      preferences: { PHONE: 3, TABLET: 2, CONSOLE: 1, LAPTOP: 1 }
+      willingness_to_pay:
+        PHONE: [250.0, 420.0]
+        TABLET: [300.0, 520.0]
+        CONSOLE: [350.0, 600.0]
+        LAPTOP: [450.0, 750.0]
+    PREMIUM:
+      share: 0.20
+      preferences: { LAPTOP: 3, CONSOLE: 2, PHONE: 1 }
+      willingness_to_pay:
+        LAPTOP: [800.0, 1400.0]
+        CONSOLE: [600.0, 1000.0]
+        PHONE: [400.0, 650.0]
+
+goods:
+  raw_materials: [CHIP, DISPLAY, BATTERY, CASING]
+  finished_goods: [PHONE, LAPTOP, TABLET, SMARTWATCH, CONSOLE]
+  recipes:
+    RECIPE_PHONE:
+      output_good: PHONE
+      inputs: { CHIP: 1, DISPLAY: 1, BATTERY: 1, CASING: 1 }
+    RECIPE_LAPTOP:
+      output_good: LAPTOP
+      inputs: { CHIP: 2, DISPLAY: 1, BATTERY: 1, CASING: 1 }
+    RECIPE_TABLET:
+      output_good: TABLET
+      inputs: { CHIP: 1, DISPLAY: 1, BATTERY: 1 }
+    RECIPE_SMARTWATCH:
+      output_good: SMARTWATCH
+      inputs: { CHIP: 1, BATTERY: 1, CASING: 1 }
+    RECIPE_CONSOLE:
+      output_good: CONSOLE
+      inputs: { CHIP: 3, CASING: 2, BATTERY: 1 }
+
+agents:
+  directory: src/dme_simulator/agents
+  decide_timeout_ms: 10.0
+  observe_all_transactions: false
+
+output:
+  directory: outputs/default
+  prefix: market
+  render_plots: true
+  progress_interval_turns: 5
+  # terminal | window | none. `--ui` and `--turn-delay` override these; the
+  # delay holds each turn on screen so a viewer can follow the run live.
+  dashboard: terminal
+  turn_delay_seconds: 0.0

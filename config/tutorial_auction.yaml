@@ -1,0 +1,66 @@
+# Tutorial 2 - bidding only.
+# Every WIDGET sells for roughly the same price (one segment, a narrow
+# willingness to pay) and demand always exceeds what the lot can supply, so
+# retail pricing barely matters. What decides the winner is what you pay at
+# suppliers: PART is scarce, and overpaying for it burns the whole margin.
+turns: 20
+seed: 2
+
+initial_state:
+  starting_capital: 5000.0
+  initial_inventory: {}
+
+suppliers:
+  PART:
+    production_min: 30
+    production_max: 30
+    base_price: 10.0
+    stock_capacity: 30
+    price_stock_factor: 0.0
+    price_floor_multiplier: 1.0
+    adaptation:
+      enabled: false
+      low_stock_consecutive_turns: 3
+      high_stock_consecutive_turns: 5
+      empty_stock_percentage: 0.05
+      full_stock_percentage: 0.95
+      increase_percentage: 0.10
+      decrease_percentage: 0.10
+
+production:
+  capacity_per_turn: null
+
+consumer_market:
+  base_customers: 40
+  amplitude: 0
+  period_divisor: 5.0
+  price_sensitivity_beta: 0.05
+  segments:
+    SHOPPERS:
+      share: 1.0
+      preferences: { WIDGET: 1 }
+      willingness_to_pay:
+        WIDGET: [95.0, 105.0]
+
+goods:
+  raw_materials: [PART]
+  finished_goods: [WIDGET]
+  recipes:
+    RECIPE_WIDGET:
+      output_good: WIDGET
+      inputs: { PART: 2 }
+
+agents:
+  directory: src/dme_simulator/agents
+  decide_timeout_ms: 10.0
+  observe_all_transactions: false
+
+output:
+  directory: outputs/tutorial_auction
+  prefix: tutorial
+  render_plots: true
+  progress_interval_turns: 5
+  # terminal | window | none. `--ui` and `--turn-delay` override these; the
+  # delay holds each turn on screen so a viewer can follow the run live.
+  dashboard: terminal
+  turn_delay_seconds: 0.0
