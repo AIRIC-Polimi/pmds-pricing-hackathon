@@ -126,7 +126,8 @@ pmds-pricing-hackathon/                 # run commands here
 ```
 
 Create the folder in the Explorer or with
-`mkdir -p src/dme_simulator/agents/your-team-name`.
+`mkdir -p src/dme_simulator/agents/your-agent-name`.
+You can create multiple agents by creating multiple folders.
 The simulator discovers agents here automatically, including all experimental
 agent folders you leave in this directory. Put this starter in `agent.py`:
 
@@ -163,10 +164,10 @@ actions. The starter checks the setup; you should improve its strategy.
 ### 1.4 Check that it runs
 
 From the repository root, first check syntax and discovery. Replace
-`your-team-name` in the syntax-check path with your agent's folder name:
+`your-agent-name` in the syntax-check path with your agent's folder name:
 
 ```bash
-uv run python -m compileall -q src/dme_simulator/agents/your-team-name
+uv run python -m compileall -q src/dme_simulator/agents/your-agent-name
 uv run dme-sim --list-agents
 ```
 
